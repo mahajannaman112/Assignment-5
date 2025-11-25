@@ -1,0 +1,42 @@
+#include <iostream>
+
+
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+
+ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+    if (!headA || !headB) return nullptr;
+
+    ListNode* a = headA;
+    ListNode* b = headB;
+
+ 
+    while (a != b) {
+        a = a ? a->next : headB;
+        b = b ? b->next : headA;
+    }
+    return a; 
+}
+
+
+int main() {
+    ListNode* common = new ListNode(8);
+    common->next = new ListNode(9);
+
+    ListNode* headA = new ListNode(1);
+    headA->next = new ListNode(2);
+    headA->next->next = common;
+
+    ListNode* headB = new ListNode(3);
+    headB->next = new ListNode(4);
+    headB->next->next = common;
+
+    ListNode* inter = getIntersectionNode(headA, headB);
+    if (inter) std::cout << "Intersection at node with value: " << inter->val << "\n";
+    else std::cout << "No intersection\n";
+    return 0;
+}
