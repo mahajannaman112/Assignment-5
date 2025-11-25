@@ -1,0 +1,70 @@
+#include <iostream>
+
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+
+ListNode* rotateLeft(ListNode* head, int k) {
+    if (!head || !head->next || k == 0) return head;
+
+    ListNode* tail = head;
+    int n = 1;
+    while (tail->next) {
+        tail = tail->next;
+        ++n;
+    }
+
+   
+    k %= n;
+    if (k == 0) return head;
+
+  
+    tail->next = head;
+
+   
+    ListNode* newTail = head;
+    for (int i = 1; i < k; ++i) {
+        newTail = newTail->next;
+    }
+
+   
+    ListNode* newHead = newTail->next;
+    newTail->next = nullptr;
+
+    return newHead;
+}
+
+
+void printList(ListNode* head) {
+    while (head) {
+        std::cout << head->val;
+        if (head->next) std::cout << " -> ";
+        head = head->next;
+    }
+    std::cout << '\n';
+}
+
+
+int main() {
+    
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    head->next->next->next = new ListNode(4);
+    head->next->next->next->next = new ListNode(5);
+
+    int k = 2; 
+
+    std::cout << "Original: ";
+    printList(head);
+
+    ListNode* rotated = rotateLeft(head, k);
+    std::cout << "Rotated:  ";
+    printList(rotated);
+
+   
+    return 0;
+}
