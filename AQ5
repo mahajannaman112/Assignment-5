@@ -1,0 +1,49 @@
+#include <iostream>
+
+using namespace std;
+
+struct Node {
+    int coeff;
+    int power;
+    Node* next;
+    Node(int c, int p) : coeff(c), power(p), next(nullptr) {}
+};
+
+Node* addPolynomials(Node* p1, Node* p2) {
+    Node* head = nullptr;
+    Node* tail = nullptr;
+
+    while (p1 && p2) {
+        Node* temp;
+        if (p1->power == p2->power) {
+            temp = new Node(p1->coeff + p2->coeff, p1->power);
+            p1 = p1->next;
+            p2 = p2->next;
+        } else if (p1->power > p2->power) {
+            temp = new Node(p1->coeff, p1->power);
+            p1 = p1->next;
+        } else {
+            temp = new Node(p2->coeff, p2->power);
+            p2 = p2->next;
+        }
+        if (!head) head = tail = temp;
+        else { tail->next = temp; tail = temp; }
+    }
+
+    while (p1) {
+        Node* temp = new Node(p1->coeff, p1->power);
+        tail->next = temp;
+        tail = temp;
+        p1 = p1->next;
+    }
+
+    while (p2) {
+        Node* temp = new Node(p2->coeff, p2->power);
+        tail->next = temp;
+        tail = temp;
+        p2 = p2->next;
+    }
+
+    return head;
+}
+
